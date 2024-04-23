@@ -135,23 +135,18 @@ function changeAndroidBuildGradle() {
     let path = "platforms/android/build.gradle";
     logFile(path);
 
+    let replaceByStr = "repositories {\nrepos" + os.EOL + "flatDir { dirs \"${project(':unityLibrary').projectDir}/libs\" \\n } \\n }";
     let content = fs.readFileSync(path, "utf8");
 
-    let match;
-    let search = /repositories repos/g; // <-- the 'g' flag is important!
-    
-    // If you need to construct the regexp dynamically
-    // do = new RegExp('Test Value', 'g')
-    let iter = 0;
-    while (match = search.exec(content)) {
-        iter=iter + 1;
-        console.log("Found " + iter + " match: " + match.index);
-    }
+    let search = /repositories repos/g;
+    let t = 0
+    content = content.replace(search, match => ++t === 2 ? replaceByStr : match)
 
+    fs.writeFileSync(path, content);
 
-    let strToFind = '{\nrepositories repos';
-    let replaceByStr = "{\nrepositories {\nrepos" + os.EOL + "flatDir { dirs \"${project(':unityLibrary').projectDir}/libs\" \\n }";
-    changeFileContent(path,strToFind,replaceByStr);
+    //let strToFind = '{\nrepositories repos';
+
+    //changeFileContent(path,strToFind,replaceByStr);
     //Log the changed file
     logFile(path);
 }
