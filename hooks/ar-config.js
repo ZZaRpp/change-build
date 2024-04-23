@@ -135,7 +135,7 @@ function changeAndroidBuildGradle() {
     let path = "platforms/android/build.gradle";
     logFile(path);
 
-    let replaceByStr = "repositories {\nrepos" + os.EOL + "flatDir { dirs \"${project(':unityLibrary').projectDir}/libs\" " + os.EOL + " } " + os.EOL + " }";
+    let replaceByStr = "repositories {\nrepos" + os.EOL + "flatDir { dirs \"${project(':ARUnity_Sample').projectDir}/libs\" " + os.EOL + " } " + os.EOL + " }";
     let content = fs.readFileSync(path, "utf8");
 
     let search = /repositories repos/g;
@@ -155,7 +155,7 @@ function changeAppBuildGradle() {
     let path = "platforms/android/app/build.gradle";
     logFile(path);
     let strToFind = "dependencies {";
-    let replaceByStr = "dependencies { \n implementation fileTree(dir: project(':unityLibrary').getProjectDir().toString() + ('\\\\libs'), include: ['*.jar'])" + os.EOL;
+    let replaceByStr = "dependencies { \n implementation fileTree(dir: project(':ARUnity_Sample').getProjectDir().toString() + ('\\\\libs'), include: ['*.jar'])" + os.EOL;
     changeFileContent(path,strToFind,replaceByStr);
     //Log the changed file
     logFile(path);
