@@ -146,8 +146,8 @@ function changeAndroidBuildGradle() {
     let path = "platforms/android/build.gradle";
     logFile(path);
 
-    //let replaceByStr = "repositories {\nrepos" + os.EOL + "flatDir { dirs \"${project(':unityLibrary').projectDir}/libs\" " + os.EOL + " } " + os.EOL + " }";
-    let replaceByStr = "repositories {\nrepos" + os.EOL + "flatDir { dirs \"${project.rootDir}/unityLibrary/libs\" " + os.EOL + " } " + os.EOL + " }";
+    let replaceByStr = "repositories {\nrepos" + os.EOL + "flatDir { dirs \"${project(':unityLibrary').projectDir}/libs\" " + os.EOL + " } " + os.EOL + " }";
+    //let replaceByStr = "repositories {\nrepos" + os.EOL + "flatDir { dirs \"${project.rootDir}/unityLibrary/libs\" " + os.EOL + " } " + os.EOL + " }";
     
     let content = fs.readFileSync(path, "utf8");
 
