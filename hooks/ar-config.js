@@ -9,10 +9,7 @@ const configs = {
     androidMainPath: "/platforms/android/app/src/main/",
     androidAppPath: "/platforms/android/app/",
     configPathAndroid: "/platforms/android/app/src/main/res/xml/config.xml",
-    configPathIos: "/platforms/ios/PLUS/config.xml",
     androidManifest: "AndroidManifest.xml",
-    iosPath: "/platforms/ios/www/",
-    iosMainPath: "/platforms/ios/",
     indexFile: 'index.html',
     urlPath: 'ARUnity_Sample',
     pluginId: 'cordova-unity-ar-config-plugin'
@@ -164,10 +161,11 @@ function changeAppBuildGradle() {
 
 function logAppFolders(foldersPath) {
     const files = fs.readdirSync(foldersPath);
-    let resources = [];
+    console.log("---- Start " + foldersPath + " ----");
     files.forEach(folder => {
         console.log(folder);
     })
+    console.log("---- End " + foldersPath + " ----");
 }
 
 
