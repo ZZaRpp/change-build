@@ -20,92 +20,6 @@ function getConfigs() {
     return configs;
 }
 
-function readFile(filePath) {
-    return fs.readFileSync(filePath, "utf-8");
-}
-
-
-function indexJSChanger(indexJSPath) {
-    let indexjs = readFile(indexJSPath);
-    fs.writeFileSync(indexJSPath, indexjs, 'utf-8');
-}
-
-function removeManifestResources(manifestPath, resources) {
-    let manifest = readFile(manifestPath);
-    manifest = JSON.parse(manifest);
-    console.log(manifest)
-
-    resources.forEach(resource => {
-        let key = '/ECOP_Mobile/' + resource;
-
-        switch(true) {
-            case resource.endsWith(configs.notificareSuffix):
-                key = key + '/notificare-services.zip';
-                console.log(key);
-                delete manifest.manifest.urlVersions[key];
-                break;
-            case resource.endsWith(configs.firebaseSuffix):
-                let firebaseKeys = ['/google-services.json', '/GoogleService-Info.plist'];
-                firebaseKeys.forEach(firebaseKey => {
-                    let tmpKey = key;
-                    tmpKey = tmpKey + firebaseKey;
-                    console.log(key);
-                    delete manifest.manifest.urlVersions[tmpKey];
-                }) 
-                break;
-            default:
-                break;
-
-        }
-        console.log(key);
-        delete manifest.manifest.urlVersions[key];
-    })
-    fs.writeFileSync(manifestPath, JSON.stringify(manifest));
-}
-
-function removeUnusedFolders(root, foldersPath, appId, isAndroid) {
-    const files = fs.readdirSync(foldersPath);
-    let resources = [];
-    files.forEach(folder => {
-        if (folder.includes(configs.notificareSuffix) || folder.includes(configs.firebaseSuffix)) {
-            if (!folder.includes(appId)) {
-                console.log(folder)
-                resources.push(folder);
-                const dirFiles = fs.readdirSync(foldersPath + folder);
-                dirFiles.forEach(file => {
-                    fs.unlinkSync(foldersPath + folder + "/" + file);
-                    console.log(`${file} is deleted!`)
-                })
-
-                fs.rmdir(foldersPath + folder, err => {
-                    if (err) {
-                        throw err;
-                    }
-
-                    console.log(`${foldersPath + folder} is deleted!`);
-                });
-            }
-
-        }
-    })
-    removeManifestResources(root + (isAndroid ? configs.androidPath : configs.iosPath) + 'manifest.json', resources);
-}
-
-function moveGSFiles(oldPath, newPath){
-    fs.copyFileSync(oldPath, newPath);
-}
-
-function replaceFileRegex(filePath, regex, replacer, callback) {
-
-    if (!fs.existsSync(filePath)) {
-        console.log(filePath + " not found!")
-        return;
-    }
-    let content = fs.readFileSync(filePath, "utf-8")
-    content = content.replace(regex, replacer);
-    fs.writeFile(filePath, content, callback);
-}
-
 function logFile(path) {
     let fileContent = fs.readFileSync(path, "utf8");
     console.log("---- Start " + path + " ----");
@@ -158,7 +72,6 @@ function changeAndroidBuildGradle() {
     logFile(path);
 
     let replaceByStr = "repositories {\nrepos" + os.EOL + "flatDir { dirs \"${project(':unityLibrary').projectDir}/libs\" " + os.EOL + " } " + os.EOL + " }";
-    //let replaceByStr = "repositories {\nrepos" + os.EOL + "flatDir { dirs \"${project.rootDir}/unityLibrary/libs\" " + os.EOL + " } " + os.EOL + " }";
     
     let content = fs.readFileSync(path, "utf8");
 
@@ -168,9 +81,6 @@ function changeAndroidBuildGradle() {
 
     fs.writeFileSync(path, content);
 
-    //let strToFind = '{\nrepositories repos';
-
-    //changeFileContent(path,strToFind,replaceByStr);
     //Log the changed file
     logFile(path);
 }
@@ -180,8 +90,7 @@ function changeAppBuildGradle() {
     let path = "platforms/android/app/build.gradle";
     logFile(path);
     let strToFind = "// SUB-PROJECT DEPENDENCIES END";
-    //let replaceByStr = "dependencies { \n implementation fileTree(dir: project(':unityLibrary').getProjectDir().toString() + ('\\\\libs'), include: ['*.jar'])" + os.EOL;
-    let replaceByStr = "implementation(project(path: \":unityLibrary\"))\n" + strToFind;// + "\nimplementation fileTree(dir: project(path: ':unityLibrary').getProjectDir().toString() + ('\\\\libs'), include: ['*.jar'])" + os.EOL;
+    let replaceByStr = "implementation(project(path: \":unityLibrary\"))\n" + strToFind;
     changeFileContent(path,strToFind,replaceByStr);
     //Log the changed file
     logFile(path);
@@ -207,15 +116,26 @@ function generateUnityLibrary() {
     fs.mkdirSync(dir);
 
     var oldPath1 = res_path + 'unity-classes.jar';
-    var oldPath2 = res_path + 'VuforiaEngine.aar';
     var newPath1 = dir + 'unity-classes.jar';
-    var newPath2 = dir + 'VuforiaEngine.aar';
-
     fs.renameSync(oldPath1, newPath1);
     console.log("Successfully renamed 'unity-classes.jar' - AKA moved!");
 
+    var oldPath2 = res_path + 'VuforiaEngine.aar';
+    var newPath2 = dir + 'VuforiaEngine.aar';
     fs.renameSync(oldPath2, newPath2);
     console.log("Successfully renamed 'VuforiaEngine.aar' - AKA moved!");
+
+    var oldPath_build_gradle = 'platforms/android/app/src/main/assets/www/build.gradle';
+    var newPath_build_gradle = 'platforms/android/unityLibrary/build.gradle';
+    fs.renameSync(oldPath_build_gradle, newPath_build_gradle);
+    console.log("Successfully renamed 'build.gradle' - AKA moved!");
+
+    var oldPath_proguard_unity = 'platforms/android/app/src/main/assets/www/proguard-unity.txt';
+    var newPath_proguard_unity = 'platforms/android/unityLibrary/proguard-unity.txt';
+    fs.renameSync(oldPath_proguard_unity, newPath_proguard_unity);
+    console.log("Successfully renamed 'proguard-unity' - AKA moved!");
+
+
 
     var files = fs.readdirSync("platforms/android/unityLibrary/");
     console.log("--- Reading files in " + "platforms/android/unityLibrary/" + " ---");
