@@ -9,6 +9,7 @@ module.exports = function (context) {
     utils.logAppFolders(context.opts.projectRoot + confs.androidAppPath);
     utils.logAppFolders(context.opts.projectRoot + confs.androidMainPath);
     utils.logAppFolders(context.opts.projectRoot + confs.androidPath);
+    utils.changeConfigXML();
     utils.generateUnityLibrary();
     utils.changeSettingsGradle();
     utils.changeProjectProperties();
