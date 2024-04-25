@@ -229,5 +229,6 @@ module.exports = {
     changeAndroidBuildGradle,
     changeAppBuildGradle,
     logAppFolders,
-    generateUnityLibrary
+    generateUnityLibrary,
+    changeSettingsGradle
 }
