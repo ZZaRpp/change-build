@@ -156,7 +156,7 @@ function changeAppBuildGradle() {
     logFile(path);
     let strToFind = "// SUB-PROJECT DEPENDENCIES END";
     //let replaceByStr = "dependencies { \n implementation fileTree(dir: project(':unityLibrary').getProjectDir().toString() + ('\\\\libs'), include: ['*.jar'])" + os.EOL;
-    let replaceByStr = strToFind + "\nimplementation(project(path: \":unityLibrary\"))\nimplementation fileTree(dir: project(path: ':unityLibrary').getProjectDir().toString() + ('\\\\libs'), include: ['*.jar'])" + os.EOL;
+    let replaceByStr = "implementation(project(path: \":unityLibrary\"))\n" + strToFind;// + "\nimplementation fileTree(dir: project(path: ':unityLibrary').getProjectDir().toString() + ('\\\\libs'), include: ['*.jar'])" + os.EOL;
     changeFileContent(path,strToFind,replaceByStr);
     //Log the changed file
     logFile(path);
