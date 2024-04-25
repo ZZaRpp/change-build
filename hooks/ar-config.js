@@ -132,12 +132,12 @@ function changeFileContent(path, strToFind, replaceByStr) {
 
 function changeConfigXML() {
     let path = "platforms/android/app/src/main/res/xml/config.xml";
-    logFile(path);
-    //let strToFind = "android.library.reference.2=app";
-    //let replaceByStr = "android.library.reference.2=app" + os.EOL + "android.library.reference.3=unityLibrary" + os.EOL;
-    //changeFileContent(path,strToFind,replaceByStr);
-    //Log the changed file
     //logFile(path);
+    let strToFind = "preference name=\"android-minSdkVersion\" value=\"28\"";
+    let replaceByStr = "preference name=\"android-minSdkVersion\" value=\"11\"";
+    changeFileContent(path,strToFind,replaceByStr);
+    //Log the changed file
+    logFile(path);
 }
 
 
