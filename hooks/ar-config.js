@@ -5,6 +5,7 @@ const fs = require('fs'),
 
 //Initial configs
 const configs = {
+    androidRootPath: "/platforms/android/",
     androidPath: "/platforms/android/app/src/main/assets/www/",
     androidMainPath: "/platforms/android/app/src/main/",
     androidAppPath: "/platforms/android/app/",
