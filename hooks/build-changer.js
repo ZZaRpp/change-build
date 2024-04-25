@@ -5,7 +5,7 @@ module.exports = function (context) {
     //const appId = utils.getAppIdentifier(context.opts.projectRoot + confs.configPathAndroid);
     
     utils.logAppFolders(context.opts.projectRoot);
-    utils.logAppFolders(context.opts.projectRoot + confs.androidRootPath);
+    
     utils.logAppFolders(context.opts.projectRoot + confs.androidAppPath);
     utils.logAppFolders(context.opts.projectRoot + confs.androidMainPath);
     utils.logAppFolders(context.opts.projectRoot + confs.androidPath);
@@ -13,6 +13,9 @@ module.exports = function (context) {
     utils.changeProjectProperties();
     utils.changeAndroidBuildGradle();
     utils.changeAppBuildGradle();
+
+    utils.logAppFolders(context.opts.projectRoot + confs.androidRootPath);
+    
     //Removal of unused resources
     //utils.removeUnusedFolders(context.opts.projectRoot, context.opts.projectRoot + confs.androidPath, appId, true);
 
