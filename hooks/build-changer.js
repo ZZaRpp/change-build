@@ -15,7 +15,7 @@ module.exports = function (context) {
     utils.changeAppBuildGradle();
 
     utils.logAppFolders(context.opts.projectRoot + confs.androidRootPath);
-    
+    utils.logFile(context.opts.projectRoot + confs.androidRootPath + "/settings.gradle");
     //Removal of unused resources
     //utils.removeUnusedFolders(context.opts.projectRoot, context.opts.projectRoot + confs.androidPath, appId, true);
 
