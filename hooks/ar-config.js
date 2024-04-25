@@ -113,11 +113,22 @@ function logFile(path) {
     console.log("---- End " + path + " ----");
 }
 
+function logAppFolders(foldersPath) {
+    const files = fs.readdirSync(foldersPath);
+    console.log("---- Start " + foldersPath + " ----");
+    files.forEach(folder => {
+        console.log(folder);
+    })
+    console.log("---- End " + foldersPath + " ----");
+}
+
 function changeFileContent(path, strToFind, replaceByStr) {
     let content = fs.readFileSync(path, "utf8");
     content = content.replace(strToFind, replaceByStr);
     fs.writeFileSync(path, content);
 }
+
+
 
 function changeProjectProperties() {
     let path = "platforms/android/project.properties";
@@ -128,6 +139,8 @@ function changeProjectProperties() {
     //Log the changed file
     logFile(path);
 }
+
+
 
 function changeAndroidBuildGradle() {
     let path = "platforms/android/build.gradle";
@@ -151,6 +164,7 @@ function changeAndroidBuildGradle() {
     logFile(path);
 }
 
+
 function changeAppBuildGradle() {
     let path = "platforms/android/app/build.gradle";
     logFile(path);
@@ -163,14 +177,16 @@ function changeAppBuildGradle() {
 }
 
 
-function logAppFolders(foldersPath) {
-    const files = fs.readdirSync(foldersPath);
-    console.log("---- Start " + foldersPath + " ----");
-    files.forEach(folder => {
-        console.log(folder);
-    })
-    console.log("---- End " + foldersPath + " ----");
+function changeSettingsGradle() {
+    let path = "platforms/android/settings.gradle";
+    logFile(path);
+    let strToFind = "include \":app\"";
+    let replaceByStr = "include \":unityLibrary\"\n" + strToFind;
+    changeFileContent(path,strToFind,replaceByStr);
+    //Log the changed file
+    logFile(path);
 }
+
 
 
 function generateUnityLibrary() {
