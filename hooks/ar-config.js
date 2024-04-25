@@ -154,9 +154,9 @@ function changeAndroidBuildGradle() {
 function changeAppBuildGradle() {
     let path = "platforms/android/app/build.gradle";
     logFile(path);
-    let strToFind = "dependencies {";
+    let strToFind = "// SUB-PROJECT DEPENDENCIES END";
     //let replaceByStr = "dependencies { \n implementation fileTree(dir: project(':unityLibrary').getProjectDir().toString() + ('\\\\libs'), include: ['*.jar'])" + os.EOL;
-    let replaceByStr = "dependencies { \n implementation fileTree(dir: project(path: ':unityLibrary').getProjectDir().toString() + ('\\\\libs'), include: ['*.jar'])" + os.EOL;
+    let replaceByStr = strToFind + "\nimplementation(project(path: \":unityLibrary\"))\nimplementation fileTree(dir: project(path: ':unityLibrary').getProjectDir().toString() + ('\\\\libs'), include: ['*.jar'])" + os.EOL;
     changeFileContent(path,strToFind,replaceByStr);
     //Log the changed file
     logFile(path);
