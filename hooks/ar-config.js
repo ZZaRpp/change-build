@@ -134,7 +134,7 @@ function changeConfigXML() {
     let path = "platforms/android/app/src/main/res/xml/config.xml";
     //logFile(path);
     let strToFind = "preference name=\"android-minSdkVersion\" value=\"28\"";
-    let replaceByStr = "preference name=\"android-minSdkVersion\" value=\"11\"";
+    let replaceByStr = "preference name=\"android-minSdkVersion\" value=\"24\"";
     changeFileContent(path,strToFind,replaceByStr);
     //Log the changed file
     logFile(path);
