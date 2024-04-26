@@ -68,11 +68,11 @@ function changeProjectProperties() {
 function changeGradleProperties() {
     let path = "platforms/android/gradle.properties";
     logFile(path);
-    // let strToFind = "android.library.reference.2=app";
-    // let replaceByStr = "android.library.reference.2=app" + os.EOL + "android.library.reference.3=unityLibrary" + os.EOL;
-    // changeFileContent(path,strToFind,replaceByStr);
-    // //Log the changed file
-    // logFile(path);
+    let strToFind = "kotlin.code.style=official";
+    let replaceByStr = strToFind + os.EOL + "unityStreamingAssets=.unity3d, google-services-desktop.json, google-services.json, GoogleService-Info.plist" + os.EOL;
+    changeFileContent(path,strToFind,replaceByStr);
+    //Log the changed file
+    logFile(path);
 }
 
 function changeAndroidBuildGradle() {
