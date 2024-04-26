@@ -59,13 +59,21 @@ function changeProjectProperties() {
     let path = "platforms/android/project.properties";
     logFile(path);
     let strToFind = "android.library.reference.2=app";
-    let replaceByStr = "android.library.reference.2=app" + os.EOL + "android.library.reference.3=unityLibrary" + os.EOL + "unityStreamingAssets=.unity3d, google-services-desktop.json, google-services.json, GoogleService-Info.plist"+ os.EOL;
+    let replaceByStr = "android.library.reference.2=app" + os.EOL + "android.library.reference.3=unityLibrary" + os.EOL;
     changeFileContent(path,strToFind,replaceByStr);
     //Log the changed file
     logFile(path);
 }
 
-
+function changeGradleProperties() {
+    let path = "platforms/android/gradle.properties";
+    logFile(path);
+    // let strToFind = "android.library.reference.2=app";
+    // let replaceByStr = "android.library.reference.2=app" + os.EOL + "android.library.reference.3=unityLibrary" + os.EOL;
+    // changeFileContent(path,strToFind,replaceByStr);
+    // //Log the changed file
+    // logFile(path);
+}
 
 function changeAndroidBuildGradle() {
     let path = "platforms/android/build.gradle";
@@ -162,5 +170,6 @@ module.exports = {
     logAppFolders,
     generateUnityLibrary,
     changeSettingsGradle,
-    changeConfigXML
+    changeConfigXML,
+    changeGradleProperties
 }
